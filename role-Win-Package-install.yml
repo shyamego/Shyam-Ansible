@@ -1,0 +1,27 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: no
+
+  tasks:
+  - name: include Windows-Package-Install
+    include_role:
+     name: Windows-Package-Install
+
+  post_tasks:
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: complete
+        aggregate: no
+        per_host: no
+      when:
+        - windows_patching_fact == "complete"
+
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: failed
+        aggregate: no
+        per_host: no
+      when:
+        - windows_patching_fact == "failed"

@@ -1,0 +1,4 @@
+This role is designed to validate pre-conditions for every host before patching start.
+
+Operation-team is responsible to make sure all hosts must PASS these pre-check conditions.
+

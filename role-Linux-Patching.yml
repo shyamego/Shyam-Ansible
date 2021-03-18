@@ -1,0 +1,32 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: no
+  become_user: root
+  become: yes
+  strategy: free
+          
+  tasks:
+  - name: include Linux-Patching
+    include_role: 
+     name: Linux-Patching
+  
+  post_tasks:
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: complete
+        aggregate: no
+        per_host: no
+      when: 
+        - linux_patching_fact == "complete"
+
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: failed
+        aggregate: no
+        per_host: no
+      when: 
+        - linux_patching_fact == "failed"  
+ 
+

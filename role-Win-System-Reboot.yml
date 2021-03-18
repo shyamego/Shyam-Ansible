@@ -1,0 +1,10 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: no
+  become_user: root
+  become: yes
+
+  tasks:
+  - name: Include Win-System-Reboot
+    include_role:
+     name: Win-System-Reboot

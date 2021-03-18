@@ -1,0 +1,9 @@
+---
+- hosts: all #"{{survey_host}}"
+  become: yes
+  become_user: ansadmin
+     
+  tasks:
+  - name: Include StartAppServer
+    include_role: 
+     name: StartAppServer

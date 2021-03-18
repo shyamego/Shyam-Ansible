@@ -1,0 +1,10 @@
+---
+- hosts: all #"{{survey_host}}"
+  become: yes
+  become_user: root
+  # ignore_errors: yes
+     
+  tasks:
+  - name: Include Clear-CPU-Usage
+    include_role: 
+     name: Clear-CPU-Usage

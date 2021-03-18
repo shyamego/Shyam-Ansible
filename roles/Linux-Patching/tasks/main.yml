@@ -1,0 +1,58 @@
+---     
+- name: Gathering managed nodes information
+  shell: "hostname -i"
+  register: ipout
+  
+- name: Gathering hostname information.
+  shell: "uname -n"
+  register: hostout
+  
+- name: Installing New packages
+  yum:
+          #security: yes
+    name: "{{package_list}}"
+    state: present #latest
+    #exclude: kernel*
+    #register: install_results
+  register: install_results
+
+  #- name: Package Details
+  #  debug:
+  # msg: "{{package_list[1]}}"
+  #  register: out_package
+  
+- name: set fact if COMPLETE
+  set_fact:
+   linux_patching_fact: "complete"
+   cacheable: yes 
+  when: install_results.rc  == 0
+     
+- name: set fact if FAILED.
+  set_fact:
+   linux_patching_fact: "failed"
+   cacheable: yes     
+  when: install_results.failed == true
+
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
+- name: Capturing Package DetailS.
+  postgresql_query:
+     login_host: "{{filehost_details}}"
+     db: "{{dbname}}"
+     login_user: "{{dbuser}}"
+     login_password: "{{dbpassword}}"
+     query: "insert into packagedetails ( packagename, package_current_version, date) values (%s,%s,%s);"
+     positional_args:
+        - "{{item}}"
+        - "{{ ansible_facts.packages [item] | json_query('[*].version') }}" #"{{ipout.stdout}}"
+        - "{{date}}"
+  delegate_to: "{{filehost_details}}"
+  when: " item  in ansible_facts.packages"
+  with_items: "{{ package_list }}"
+        
+- name: Importing Reporting-DB role
+  import_role:
+   name: Reporting-DB
+

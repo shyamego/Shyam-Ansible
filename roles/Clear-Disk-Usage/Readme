@@ -1,0 +1,1 @@
+This Role is used to clear the disk space alerts trigged from NETREO, Create incident in Service-Now and trigger Ansible Tower.

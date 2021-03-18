@@ -1,0 +1,14 @@
+- name: Capturing VM-Provisioning Status
+  postgresql_query:
+     login_host: "{{filehost_details}}"
+     db: "{{dbname}}"
+     login_user: "{{dbuser}}"
+     login_password: "{{dbpassword}}"
+     query: "insert into vmstatus ( cloud_name, image_name, instance_type, availability_zone, subnet ) values (%s,%s,%s,%s,%s);"
+     positional_args:
+        - "{{Cloud_Name}}"
+        - "{{Image}}"
+        - "{{Instance_Type}}"
+        - "{{Region}}"
+        - "{{Subnet}}"  
+  delegate_to: "{{filehost_details}}"

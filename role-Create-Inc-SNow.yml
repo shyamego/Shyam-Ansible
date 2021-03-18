@@ -1,0 +1,15 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: yes
+  become: no
+     
+  tasks:
+  - name: Create an incident using host instead of instance
+    snow_record:
+     username: shyamkumar.d
+     password: Welcome@2020$
+     instance: orionsystemsintegratorsllcdemo4
+     state: present
+     data:
+      short_description: "This is a test incident opened by Ansible"
+      priority: 2

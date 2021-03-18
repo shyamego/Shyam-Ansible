@@ -1,0 +1,9 @@
+---     
+- name: Copying the Script File to Target Nodes.
+  copy:
+   src: ../files/Prepare_Inventory.sh
+   dest: "{{installation_folder}}/Prepare_Inventory.sh"
+   mode: '0777'
+  delegate_to: "{{filehost_details}}"
+- name: Preparing Linux and Windows Inventory.
+  shell: "{{installation_folder}}/Prepare_Inventory.sh"

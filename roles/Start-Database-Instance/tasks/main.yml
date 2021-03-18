@@ -1,0 +1,54 @@
+---
+- name: Create directory structure
+  win_file:
+    path: C:\Scripts
+    state: directory
+- name: Copying Temporay File
+  win_copy:
+     src: /tmp/Windows-hosts.csv
+     dest: C:\Scripts\Windows-hosts.csv
+     force: yes
+
+- name: download the 7-Zip package
+  win_get_url:
+    url: http://www.7-zip.org/a/7z1701-x64.msi
+    dest: C:\Scripts\7z.msi
+  register: outdon
+
+  #- name: download the Git-BASH
+  # https://git-scm.com/download/win.exe #http://www.7-zip.org/a/7z1701-x64.msi
+  # dest: C:\Users\ansadmin\Scripts\Git-2.29.2.3-64-bit
+
+
+
+    #- name: download the FireFox package
+    #  win_get_url:
+    #    url: https://www.hass.de/files/nodes/story/45/npp.7.5.9.installer.x64.en-us.msi
+    #https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v7.8.6/npp.7.8.6.Installer.x64.exe
+    #dest: C:\Users\ansadmin\Scripts\npp.7.5.9.installer.x64.en-us.mis
+
+
+- name: Installing 7-Zip via win_package
+  win_package:
+    path: C:\Scripts\{{item}} #7z.msi
+    state: absent
+  with_items: "{{package_list}}"
+
+    #- name: Installing Git-Bash via win_package
+  #  win_package:
+          #  path: C:\Users\ansadmin\Scripts\Git-2.29.2.3-64-bit.exe
+    #    state: present    
+
+  #- name: Installing Fire-Fox via win_package
+  #  win_package:
+  #    path: C:\Users\ansadmin\Scripts\npp.7.5.9.installer.x64.en-us.mis #npp.7.8.6.Installer.x64.exe
+  #    state: present    
+
+- name: Temp File
+  file:
+      path: /tmp/SHAYM.txt
+      state: touch
+      mode: '0775'
+      owner: ansadmin
+      group: ansadmin
+  delegate_to: 192.168.173.33

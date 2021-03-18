@@ -1,0 +1,30 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: yes
+  become: no
+     
+  tasks:
+  - name: Include Prepatch-Check
+    include_role: 
+     name: Prepatch-Check
+  
+  post_tasks:
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: prepatch_check_success             
+        aggregate: no
+        per_host: no
+      when: 
+        - prepatch_linux_patching_fact == "prepatch_success"
+        
+    - name: set stat
+      set_stats:
+        data:
+          seum_status: prepatch_check_failed             
+        aggregate: no
+        per_host: no
+      when: 
+        - prepatch_linux_patching_fact == "prepatch_failed"
+        
+

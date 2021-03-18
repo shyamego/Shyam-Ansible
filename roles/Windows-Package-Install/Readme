@@ -1,0 +1,1 @@
+This role will install the custome packages defined in defaults/main.yml with package_list variable.

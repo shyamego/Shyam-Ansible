@@ -1,0 +1,28 @@
+---
+- name: Gathering managed nodes information.
+  shell: "hostname -i"
+  register: ipout
+
+- name: Gathering hostname information.
+  shell: "uname -n"
+  register: hostout
+
+- name: Checking root utilization
+  shell: echo `df -h / | awk 'NR == 2 { print $4 }' | awk -F 'G' '{print $1}'`
+  register: root_size
+
+- name: Checking /var utilization
+  shell: echo `df -h /var | awk 'NR == 2 { print $4 }' | awk -F 'G' '{print $1}'`
+  register: var_size
+
+- name: Set fact if PRE-PATCH SUCCESS.
+  set_fact:
+       prepatch_linux_patching_fact: "prepatch_success"       
+       cacheable: yes
+  when: root_size.stdout|int > 3 or  var_size.stdout|int > 1
+  
+- name: Set fact if PRE-PATCH FAILED.
+  set_fact:
+       prepatch_linux_patching_fact: "prepatch_failed"       
+       cacheable: yes
+  when: root_size.stdout|int < 3 or  var_size.stdout|int < 1

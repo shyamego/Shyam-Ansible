@@ -1,0 +1,21 @@
+---
+- hosts: all # windows
+  tasks:
+  - name: Finding The Infra-input File Path.
+    win_find:
+     paths: C:/Users/ansadmin/Desktop/mid.newyork-06-26-2019__patch10a-10-02-2020_10-08-2020_1523.windows.x86-64/agent/export/CloudImport     
+     patterns: "*.csv"
+    register: files_to_copy
+
+
+  - name: Copying File From Windows-to-Linux Path.
+    fetch:
+     src: "{{ item.path }}"
+     dest: /etc/ansible/IMP-FILES/ 
+     flat: yes
+    with_items: "{{ files_to_copy.files }}"
+
+  - name: Remove Files From INFRAFILES Directory.
+    win_shell: 'Remove-Item C:/Users/ansadmin/Desktop/mid.newyork-06-26-2019__patch10a-10-02-2020_10-08-2020_1523.windows.x86-64/agent/export/CloudImport/*.csv'
+    #C:/Users/ansadmin/INFRAFILES/*.txt'
+    #

@@ -1,0 +1,23 @@
+--- 
+- name: Creating New  WindowsInventory
+  tower_inventory:
+    name: "WindowsInventory"
+    organization: "ORION"
+    state: present   
+- name: Creating New  LinuxInventory
+  tower_inventory:
+    name: "LinuxInventory"
+    organization: "ORION"
+    state: present
+    
+- name: Adding Winrm Arguments To Inventory HOSTs in Ansible Tower
+  command: sed -i 's/$/ ansible_user=ansadmin ansible_password=Welcome@2020$ ansible_port=5985 ansible_winrm_transport=basic ansible_connection=winrm ansible_winrm_server_cert_validation=ignore/' /tmp/Windows-hosts.csv
+  delegate_to: "{{filehost_details}}"
+    
+- name: Loading Windows Inventory into Ansible Tower
+  command: awx-manage inventory_import --source=/tmp/Windows-hosts.csv --inventory-name="WindowsInventory" --overwrite
+  delegate_to: "{{filehost_details}}"
+
+- name: Loading Linux Inventory into Ansible Tower
+  command: awx-manage inventory_import --source=/tmp/Linux-hosts.csv  --inventory-name="LinuxInventory" --overwrite
+  delegate_to: "{{filehost_details}}"      

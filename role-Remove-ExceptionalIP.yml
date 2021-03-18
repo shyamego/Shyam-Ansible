@@ -1,0 +1,11 @@
+---
+- hosts: all #all #"{{survey_host}}"
+  gather_facts: no
+  become_user: root
+  become: yes
+  strategy: free
+          
+  tasks:
+  - name: include Remove-ExceptionalIP
+    include_role: 
+     name: Remove-ExceptionalIP

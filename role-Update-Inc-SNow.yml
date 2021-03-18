@@ -1,0 +1,18 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: yes
+  become: no
+     
+  tasks:
+  - name: Update an incident
+    snow_record:
+     username: shyamkumar.d
+     password: Welcome@2020$
+     instance: orionsystemsintegratorsllcdemo4
+     state: present
+     number: INC0010099
+     data:
+      work_notes : "Updating WORK-NOTES from ANSIBLE....!!!"
+      short_description: "Updating SHORT-DESCRIPTION from ANSIBLE....!!!"
+
+

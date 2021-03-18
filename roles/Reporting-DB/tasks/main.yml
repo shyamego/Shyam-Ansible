@@ -1,0 +1,15 @@
+- name: Capturing Linux Patching Status
+  postgresql_query:
+     login_host: "{{filehost_details}}"
+     db: "{{dbname}}"
+     login_user: "{{dbuser}}"
+     login_password: "{{dbpassword}}"
+     query: "insert into patchstatus ( hostname, ip_address, activity_name, patching_status,date ) values (%s,%s,%s,%s,%s);"
+     positional_args:
+        - "{{hostout.stdout}}"
+        - "{{ipout.stdout}}"
+        - "{{Activity_Name}}"
+        - "{{linux_patching_fact}}"
+        - "{{date}}"
+          #        - "{{package_list[1]}}"
+  delegate_to: "{{filehost_details}}"

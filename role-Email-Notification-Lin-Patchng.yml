@@ -1,0 +1,9 @@
+---
+- hosts: all #"{{survey_host}}"
+  gather_facts: no
+  become: no
+    
+  tasks:
+  - name: include Email-Notification
+    include_role: 
+     name: Email-Notification

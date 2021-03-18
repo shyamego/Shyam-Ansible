@@ -1,0 +1,48 @@
+---
+- name: Create directory structure
+  win_file:
+    path: C:\Scripts
+    state: directory
+
+- name: Copy powershell script to remote node
+  win_copy:
+    src: ../files/info.ps1
+    dest: C:\Scripts\info.ps1
+    force: yes
+
+- name: Validating The Database Name.
+  win_shell:  C:\Scripts\info.ps1
+  register: ipout
+
+
+- name: download the 7-Zip package
+  win_get_url:
+    url: http://www.7-zip.org/a/7z1701-x64.msi
+    dest: C:\Scripts\7z.msi
+  register: outdon
+
+- name: Installing 7-Zip via win_package
+  win_package:
+    path: C:\Scripts\{{item}} #7z.msi
+    state: present
+  with_items: "{{package_list}}"
+  register: install_results
+
+
+- name: set fact if COMPLETE
+  set_fact:
+   windows_patching_fact: "complete"
+   cacheable: yes
+  when: install_results.changed  == true
+
+- name: set fact if FAILED.
+  set_fact:
+   windows_patching_fact: "failed"
+   cacheable: yes
+  when: install_results.changed == false 
+
+
+- name: Importing Reporting-DB role
+  import_role:
+   name: Reporting-DB
+   tasks_from: Insert_WinPatch_Status  

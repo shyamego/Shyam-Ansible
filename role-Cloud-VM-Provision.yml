@@ -1,0 +1,10 @@
+---
+- hosts:  all #repo
+  become: yes
+  tasks:
+          
+  tasks:
+  - name: include AWS-VMCreation
+    include_role: 
+     name: AWS-VMCreation
+  

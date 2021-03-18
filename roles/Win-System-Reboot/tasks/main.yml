@@ -1,0 +1,12 @@
+---
+
+#- name: rebooting the machines
+  #win_reboot:
+  #register: reboot_results  
+
+  #- name: Wait for the reboot to complete if there was a change.
+  #  wait_for_connection:
+          # connect_timeout: 20   # Maximum number of seconds to wait for a connection to happen before closing and retrying. default 5
+    # sleep: 50   #Number of seconds to sleep between checks. default 1
+    # delay: 50    #Number of seconds to wait before starting to poll. default 0
+    #    timeout: 300   #Maximum number of seconds to wait for. default 600

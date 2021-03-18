@@ -1,0 +1,11 @@
+This role is designed to send the Email Notifications to App-owners, Operations-team, team-members etc.
+
+For now Email will trigger in 4-conditions mentioned below
+
+  1. If Patching Pre-check get failed, Email as Pre-patch check has failed [*this email will trigger in advance to avoid last min issues]
+  2. If zero Pre-check, Email as Linux patching has started
+  3. If patching completed successfully, Email as Linux patching has completed successfully
+  4. If patching completed with issues, Email as Linux patching has failed
+  
+  
+ 

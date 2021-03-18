@@ -1,0 +1,16 @@
+---
+- name: Storing Win-Package-Install Status in DB for Reporting.
+  postgresql_query:
+   login_host: "{{filehost_details}}"
+   db: "{{dbname}}"
+   login_user: "{{dbuser}}"
+   login_password: "{{dbpassword}}"
+   query: "insert into patchstatus ( hostname, ip_address, activity_name, patching_status,date,Package_Name ) values (%s,%s,%s,%s,%s,%s);"
+   positional_args:
+        - "{{ipout.stdout_lines[3]}}"
+        - "{{ipout.stdout_lines[5]}}"
+        - "{{Activity_Name}}"
+        - "{{windows_patching_fact}}"
+        - "{{date}}"
+        - "{{package_list}}"
+  delegate_to: "{{filehost_details}}"

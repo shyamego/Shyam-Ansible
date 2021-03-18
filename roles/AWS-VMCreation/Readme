@@ -1,0 +1,5 @@
+This ROLE will only starts if all PRE-CHECK conditions are PASSED else wont execute.
+This role will install the custome packages defined in defaults/main.yml with package_list variable.
+We are generating the .csv file in ansible tower node with hostname,ip-address,activity and patching status.
+We have reboot functionality in this playbook, We need to un-comment the include_task so target nodes will reboot & come up automatically.
+

@@ -1,0 +1,21 @@
+---     
+- name: Copying the Script File to Target Nodes.
+  copy:
+   src: ../files/Remove_ExceptionalIP.sh
+   dest: "{{installation_folder}}/Remove_ExceptionalIP.sh"
+   mode: '0777'
+  delegate_to: "{{filehost_details}}"
+- name: Copying Exceptional List File to Target Nodes.
+  copy:
+   src: ../files/ExceptionalIP_List.csv
+   dest: "{{installation_folder}}/ExceptionalIP_List.csv"
+   mode: '0777'
+  delegate_to: "{{filehost_details}}"
+- name: Copying the Main-Inventory List File to Target Nodes.
+  copy:
+   src: ../files/Main-inventory.csv
+   dest: "{{installation_folder}}/Main-inventory.csv"
+   mode: '0777'
+  delegate_to: "{{filehost_details}}"
+- name: Removing Exceptional IPs From Main-Inventory File.
+  shell: "{{installation_folder}}/Remove_ExceptionalIP.sh"

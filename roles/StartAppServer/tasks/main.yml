@@ -1,0 +1,15 @@
+---
+- name: Copying the Script file to target nodes.
+  copy:
+   src: ../files/StartProcess.sh
+   dest: "/tmp/StartProcess.sh"
+   mode: '0777'
+   owner: ansadmin
+   group: ansadmin
+   
+ 
+- name: Starting The Tomcat Server.
+  command: nohup /tmp/StartProcess.sh
+
+  #shell: /tmp/StartProcess.sh
+  
